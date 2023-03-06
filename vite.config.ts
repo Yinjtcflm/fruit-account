@@ -16,13 +16,6 @@ export default defineConfig({
     svgstore(),
     styleImport({
       resolves: [VantResolve()],
-      libs: [
-        {
-          libraryName: "vant",
-          esModule: true,
-          resolveStyle: (name) => `../es/${name}/style`,
-        },
-      ],
     }),
   ],
 });
