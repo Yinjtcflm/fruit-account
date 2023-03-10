@@ -17,13 +17,13 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
     const value = formData[key];
     switch (type) {
       case "required":
-        if (value === null || value === undefined || value === "") {
+        if (isEmpty(value)) {
           errors[key] = errors[key] ?? [];
           errors[key]?.push(message);
         }
         break;
       case "pattern":
-        if (value && !rule.regex.test(value.toString())) {
+        if (isEmpty(value) && !rule.regex.test(value!.toString())) {
           errors[key] = errors[key] ?? [];
           errors[key]?.push(message);
         }
@@ -34,3 +34,7 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
   });
   return errors;
 };
+
+function isEmpty(value: string | number | null | undefined | FData) {
+  return value === null || value === undefined || value === "";
+}
