@@ -8,6 +8,6 @@ export const ItemPage = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <RouterView></RouterView>;
+    return () => <RouterView />;
   },
 });
