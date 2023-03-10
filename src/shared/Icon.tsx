@@ -13,7 +13,8 @@ export type IconName =
   | "notify"
   | "left"
   | "notes"
-  | "date";
+  | "date"
+  | "add1";
 export const Icon = defineComponent({
   props: {
     name: {
