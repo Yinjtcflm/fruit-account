@@ -51,7 +51,7 @@ export const FormItem = defineComponent({
           return (
             <EmojiSelect
               modelValue={props.modelValue?.toString()}
-              onUpdateModelValue={(value: any) =>
+              onUpdateModelValue={(value) =>
                 context.emit("update:modelValue", value)
               }
               class={[s.formItem, s.error, s.emojiList]}
@@ -68,7 +68,7 @@ export const FormItem = defineComponent({
                 }}
                 class={[s.formItem, s.input]}
               />
-              <Popup position="bottom" v-model:show={refDateVisible}>
+              <Popup position="bottom" v-model:show={refDateVisible.value}>
                 <DatetimePicker
                   value={props.modelValue}
                   type="date"
@@ -94,7 +94,6 @@ export const FormItem = defineComponent({
             <div class={s.formItem_value}>{content.value}</div>
             {props.error && (
               <div class={s.formItem_errorHint}>
-                {" "}
                 <span>{props.error}</span>
               </div>
             )}
