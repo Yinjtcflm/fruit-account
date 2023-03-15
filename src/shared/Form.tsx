@@ -3,6 +3,7 @@ import s from "./Form.module.scss";
 import { EmojiSelect } from "./EmojiSelect";
 import { DatetimePicker, Popup } from "vant";
 import { Time } from "./Time";
+import { Button } from "./Button";
 export const Form = defineComponent({
   props: {
     onSubmit: {
@@ -26,7 +27,9 @@ export const FormItem = defineComponent({
       type: [String, Number],
     },
     type: {
-      type: String as PropType<"text" | "emojiSelect" | "date">,
+      type: String as PropType<
+        "text" | "emojiSelect" | "date" | "validationCode"
+      >,
     },
     error: {
       type: String,
@@ -56,6 +59,15 @@ export const FormItem = defineComponent({
               }
               class={[s.formItem, s.error, s.emojiList]}
             />
+          );
+        case "validationCode":
+          return (
+            <>
+              <input class={[s.formItem, s.input, s.validationCodeInput]} />
+              <Button class={[s.formItem, s.button, s.validationCodeButton]}>
+                提交
+              </Button>
+            </>
           );
         case "date":
           return (
@@ -94,7 +106,7 @@ export const FormItem = defineComponent({
             <div class={s.formItem_value}>{content.value}</div>
             {props.error && (
               <div class={s.formItem_errorHint}>
-                <span>{props.error}</span>
+                <span>{props.error ?? "　"}</span>
               </div>
             )}
           </label>
