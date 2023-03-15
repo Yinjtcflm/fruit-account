@@ -45,20 +45,26 @@ export const SignInPage = defineComponent({
             icon: () => <Icon name="left" />,
             default: () => (
               <div class={s.wrapper}>
+                <div class={s.logo}>
+                  <Icon class={s.icon} name="fruit" />
+                  <h1 class={s.appName}>水果记账</h1>
+                </div>
                 <Form onSubmit={onSubmit}>
                   <FormItem
                     label="邮箱地址"
                     type="text"
+                    placeholder="请输入邮箱，然后点击发送验证码"
                     v-model={formData.email}
                     error={errors.email?.[0]}
                   />
                   <FormItem
                     label="验证码"
                     type="validationCode"
+                    placeholder="请输入六位数字"
                     v-model={formData.code}
                     error={errors.code?.[0]}
                   />
-                  <FormItem>
+                  <FormItem style={{ paddingTop: "96px" }}>
                     <Button>登录</Button>
                   </FormItem>
                 </Form>

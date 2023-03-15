@@ -34,6 +34,9 @@ export const FormItem = defineComponent({
     error: {
       type: String,
     },
+    placeholder: {
+      type: String,
+    },
   },
   emits: ["update:modelValue"],
   setup: (props, context) => {
@@ -44,6 +47,7 @@ export const FormItem = defineComponent({
           return (
             <input
               value={props.modelValue}
+              placeholder={props.placeholder}
               onInput={(e: any) =>
                 context.emit("update:modelValue", e.target.value)
               }
@@ -63,9 +67,12 @@ export const FormItem = defineComponent({
         case "validationCode":
           return (
             <>
-              <input class={[s.formItem, s.input, s.validationCodeInput]} />
+              <input
+                class={[s.formItem, s.input, s.validationCodeInput]}
+                placeholder={props.placeholder}
+              />
               <Button class={[s.formItem, s.button, s.validationCodeButton]}>
-                提交
+                发送验证码
               </Button>
             </>
           );
@@ -75,6 +82,7 @@ export const FormItem = defineComponent({
               <input
                 readonly={true}
                 value={props.modelValue}
+                placeholder={props.placeholder}
                 onClick={() => {
                   refDateVisible.value = true;
                 }}
