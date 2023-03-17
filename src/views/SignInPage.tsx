@@ -5,6 +5,7 @@ import { Form, FormItem } from "../shared/Form";
 import { Button } from "../shared/Button";
 import { Icon } from "../shared/Icon";
 import { validate } from "../shared/validate";
+import axios from "axios";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
@@ -37,7 +38,11 @@ export const SignInPage = defineComponent({
         ])
       );
     };
-    const onClickSendValidationCode = () => {};
+    const onClickSendValidationCode = async () => {
+      const response = await axios.post("/api/v1/validation_codes", {
+        email: formData.email,
+      });
+    };
     return () => (
       <>
         <MainLayout>
