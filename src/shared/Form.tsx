@@ -4,6 +4,7 @@ import { EmojiSelect } from "./EmojiSelect";
 import { DatetimePicker, Popup } from "vant";
 import { Time } from "./Time";
 import { Button } from "./Button";
+import { getFriendlyError } from "./GetFriendlyError";
 export const Form = defineComponent({
   props: {
     onSubmit: {
@@ -48,17 +49,17 @@ export const FormItem = defineComponent({
     const timer = ref<number>();
     const count = ref<number>(props.countFrom);
     const isCounting = computed(() => !!timer.value);
-    const onClickSendValidationCode = () => {
-      props.onClick?.();
-      timer.value = setInterval(() => {
+
+    const startCount = () =>
+      (timer.value = setInterval(() => {
         count.value -= 1;
         if (count.value === 0) {
           clearInterval(timer.value);
           timer.value = undefined;
           count.value = props.countFrom;
         }
-      }, 1000);
-    };
+      }, 1000));
+    context.expose({ startCount });
     const content = computed(() => {
       switch (props.type) {
         case "text":
@@ -91,7 +92,7 @@ export const FormItem = defineComponent({
               />
               <Button
                 disabled={isCounting.value}
-                onClick={onClickSendValidationCode}
+                onClick={props.onClick}
                 class={[s.formItem, s.button, s.validationCodeButton]}
               >
                 {isCounting.value ? `${count.value}秒后重新发送` : "发送验证码"}
@@ -150,7 +151,9 @@ export const FormItem = defineComponent({
             <div class={s.formItem_value}>{content.value}</div>
             {props.error && (
               <div class={s.formItem_errorHint}>
-                <span>{props.error ?? "　"}</span>
+                <span>
+                  {props.error ? getFriendlyError(props.error) : "　"}
+                </span>
               </div>
             )}
           </label>
