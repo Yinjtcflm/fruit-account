@@ -43,7 +43,6 @@ export const FormItem = defineComponent({
       default: 60,
     },
     disabled: Boolean,
-    
   },
   emits: ["update:modelValue"],
   setup: (props, context) => {
@@ -90,6 +89,10 @@ export const FormItem = defineComponent({
             <>
               <input
                 class={[s.formItem, s.input, s.validationCodeInput]}
+                value={props.modelValue}
+                onInput={(e: any) =>
+                  context.emit("update:modelValue", e.target.value)
+                }
                 placeholder={props.placeholder}
               />
               <Button
