@@ -7,6 +7,7 @@ import { Icon } from "../shared/Icon";
 import { hasError, validate } from "../shared/validate";
 import { http } from "../shared/Http";
 import { useBool } from "../hooks/useBool";
+import { history } from "../shared/history";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
@@ -45,7 +46,9 @@ export const SignInPage = defineComponent({
         ])
       );
       if (!hasError(errors)) {
-        const response = await http.post("/session", formData);
+        const response = await http.post<{ jwt: string }>("/session", formData);
+        localStorage.setItem("jwt", response.data.jwt);
+        history.push("/");
       }
     };
     const onError = (error: any) => {
