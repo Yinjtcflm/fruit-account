@@ -67,17 +67,24 @@ export class Http {
 }
 export const http = new Http("/api/v1");
 
-http.instance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 429) {
-        alert("请求太频繁了，请稍后再试");
-      }
-    }
-    throw error;
+http.instance.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem("jwt");
+  if (jwt) {
+    config.headers!.Authorization = `Bearer ${jwt}`;
   }
-);
+  return config;
+}),
+  http.instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 429) {
+          alert("请求太频繁了，请稍后再试");
+        }
+      }
+      throw error;
+    }
+  );
