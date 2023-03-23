@@ -1,14 +1,16 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 import axios from "axios";
+import { mockSession } from "../mock/mock";
 
-type JSONValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JSONValue[]
-  | { [key: string]: JSONValue };
-
+type GetConfig = Omit<AxiosRequestConfig, "params" | "url" | "method">;
+type PostConfig = Omit<AxiosRequestConfig, "data" | "url" | "method">;
+type PatchConfig = Omit<AxiosRequestConfig, "url" | "data">;
+type DeleteConfig = Omit<AxiosRequestConfig, "params">;
 export class Http {
   instance: AxiosInstance;
   constructor(baseURL: string) {
@@ -18,8 +20,8 @@ export class Http {
   }
   get<R = unknown>(
     url: string,
-    query?: Record<string, string>,
-    config?: Omit<AxiosRequestConfig, "params" | "url" | "method">
+    query?: Record<string, JSONValue>,
+    config?: GetConfig
   ) {
     return this.instance.request<R>({
       ...config,
@@ -30,8 +32,8 @@ export class Http {
   }
   post<R = unknown>(
     url: string,
-    data?: Record<string, string>,
-    config?: Omit<AxiosRequestConfig, "data" | "url" | "method">
+    data?: Record<string, JSONValue>,
+    config?: PostConfig
   ) {
     return this.instance.request<R>({
       ...config,
@@ -43,7 +45,7 @@ export class Http {
   patch<R = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
-    config?: Omit<AxiosRequestConfig, "url" | "data">
+    config?: PatchConfig
   ) {
     return this.instance.request<R>({
       ...config,
@@ -55,7 +57,7 @@ export class Http {
   delete<R = unknown>(
     url: string,
     query?: Record<string, string>,
-    config?: Omit<AxiosRequestConfig, "params">
+    config?: DeleteConfig
   ) {
     return this.instance.request<R>({
       ...config,
@@ -65,6 +67,34 @@ export class Http {
     });
   }
 }
+
+const mock = (response: AxiosResponse) => {
+  if (
+    location.hostname !== "localhost" &&
+    location.hostname !== "127.0.0.1" &&
+    location.hostname !== "192.168.3.57"
+  ) {
+    return false;
+  }
+  switch (response.config?.params?._mock) {
+    case "tagIndex":
+      [response.status, response.data] = mockTagIndex(response.config);
+      return true;
+    case "itemCreate":
+      [response.status, response.data] = mockItemCreate(response.config);
+      return true;
+    case "itemIndex":
+      [response.status, response.data] = mockitemIndex(response.config);
+      return true;
+    case "tagCreate":
+      [response.status, response.data] = mockTagCreate(response.config);
+      return true;
+    case "session":
+      [response.status, response.data] = mockSession(response.config);
+      return true;
+  }
+  return false;
+};
 export const http = new Http("/api/v1");
 
 http.instance.interceptors.request.use((config) => {
@@ -73,18 +103,37 @@ http.instance.interceptors.request.use((config) => {
     config.headers!.Authorization = `Bearer ${jwt}`;
   }
   return config;
-}),
-  http.instance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 429) {
-          alert("请求太频繁了，请稍后再试");
-        }
-      }
+});
+http.instance.interceptors.response.use(
+  (response) => {
+    mock(response);
+    return response;
+  },
+  (error) => {
+    if (mock(error.response)) {
+      return error.response;
+    } else {
       throw error;
     }
-  );
+  }
+);
+
+http.instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 429) {
+        alert("操作频繁，请稍后再试");
+      }
+    }
+    throw error;
+  }
+);
+function mockTagIndex(config: AxiosRequestConfig<any>): [number, any] {
+  throw new Error("Function not implemented.");
+}
+
+function mockItemCreate(config: AxiosRequestConfig<any>): [number, any] {
+  throw new Error("Function not implemented.");
+}
