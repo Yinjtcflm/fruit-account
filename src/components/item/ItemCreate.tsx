@@ -1,9 +1,10 @@
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref, onMounted } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
 import { Icon } from "../../shared/Icon";
 import s from "./ItemCreate.module.scss";
 import { Tab, Tabs } from "../../shared/Tabs";
 import { InputPad } from "./InputPad";
+import { http } from "../../shared/Http";
 export const ItemCreate = defineComponent({
   props: {
     name: {
@@ -12,70 +13,22 @@ export const ItemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refKind = ref("支出");
-    const refExpensesTags = ref([
-      { id: 1, name: "干饭", sign: "￥", category: "expenses" },
-      { id: 2, name: "旅游", sign: "￥", category: "expenses" },
-      { id: 3, name: "打车", sign: "￥", category: "expenses" },
-      { id: 1, name: "干饭", sign: "￥", category: "expenses" },
-      { id: 2, name: "旅游", sign: "￥", category: "expenses" },
-      { id: 3, name: "打车", sign: "￥", category: "expenses" },
-    ]);
-    const refIncomeTags = ref([
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-      { id: 4, name: "工资", sign: "￥", category: "income" },
-      { id: 5, name: "妈妈给的", sign: "￥", category: "income" },
-      { id: 6, name: "红包", sign: "￥", category: "income" },
-    ]);
+    onMounted(async () => {
+      const response = await http.get<{ resources: Tag[] }>("/tags", {
+        kind: "expenses",
+        _mock: "tagIndex",
+      });
+      refExpensesTags.value = response.data.resources;
+    });
+    const refExpensesTags = ref<Tag[]>([]);
+    onMounted(async () => {
+      const response = await http.get<{ resources: Tag[] }>("/tags", {
+        kind: "income",
+        _mock: "tagIndex",
+      });
+      refIncomeTags.value = response.data.resources;
+    });
+    const refIncomeTags = ref<Tag[]>([]);
     return () => (
       <MainLayout class={s.layout}>
         {{

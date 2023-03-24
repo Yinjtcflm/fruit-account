@@ -15,7 +15,7 @@ const whiteList: Record<string, "exact" | "stratsWith"> = {
   "/welcome": "stratsWith",
   "/sign_in": "stratsWith",
 };
-router.beforeEach(async (to, from) => {
+router.beforeEach((to, from) => {
   for (const key in whiteList) {
     const value = whiteList[key];
     if (value === "exact" && to.path === key) {

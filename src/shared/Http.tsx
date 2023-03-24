@@ -5,7 +5,7 @@ import {
   AxiosResponse,
 } from "axios";
 import axios from "axios";
-import { mockSession } from "../mock/mock";
+import { mockSession, mockTagIndex } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, "params" | "url" | "method">;
 type PostConfig = Omit<AxiosRequestConfig, "data" | "url" | "method">;
@@ -80,21 +80,13 @@ const mock = (response: AxiosResponse) => {
     case "tagIndex":
       [response.status, response.data] = mockTagIndex(response.config);
       return true;
-    case "itemCreate":
-      [response.status, response.data] = mockItemCreate(response.config);
-      return true;
-    case "itemIndex":
-      [response.status, response.data] = mockitemIndex(response.config);
-      return true;
-    case "tagCreate":
-      [response.status, response.data] = mockTagCreate(response.config);
-      return true;
     case "session":
       [response.status, response.data] = mockSession(response.config);
       return true;
   }
   return false;
 };
+
 export const http = new Http("/api/v1");
 
 http.instance.interceptors.request.use((config) => {
@@ -130,10 +122,3 @@ http.instance.interceptors.response.use(
     throw error;
   }
 );
-function mockTagIndex(config: AxiosRequestConfig<any>): [number, any] {
-  throw new Error("Function not implemented.");
-}
-
-function mockItemCreate(config: AxiosRequestConfig<any>): [number, any] {
-  throw new Error("Function not implemented.");
-}
