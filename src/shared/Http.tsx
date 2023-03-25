@@ -1,10 +1,9 @@
-import {
+import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import axios from "axios";
 import { mockSession, mockTagIndex } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, "params" | "url" | "method">;
