@@ -88,8 +88,8 @@ export const EmojiSelect = defineComponent({
       refSelected.value = index;
     };
     const onClickEmoji = (emoji: string) => {
-      if (props.onUpdateMOdelValue) {
-        props.onUpdateMOdelValue(emoji);
+      if (props.onUpdateModelValue) {
+        props.onUpdateModelValue(emoji);
       } else {
         context.emit("update:modelValue", emoji);
       }

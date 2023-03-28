@@ -5,15 +5,6 @@ type Mock = (config: AxiosRequestConfig) => [number, any];
 
 faker.setLocale("zh_CN");
 export const mockItemCreate: Mock = (config) => {
-  // return [
-  //   422,
-  //   {
-  //     errors: {
-  //       tags_id: ["必须选择标签"],
-  //       amount: ["金额不能为零"],
-  //     },
-  //   },
-  // ];
   return [
     200,
     {
@@ -31,6 +22,16 @@ export const mockItemCreate: Mock = (config) => {
     },
   ];
 };
+export const mockTagEdit: Mock = (config) => {
+  const createTag = (attrs?: any) => ({
+    id: createId(),
+    name: faker.lorem.word(),
+    sign: faker.internet.emoji(),
+    kind: "expenses",
+    ...attrs,
+  });
+  return [200, { resource: createTag() }];
+};
 export const mockTagShow: Mock = (config) => {
   const createTag = (attrs?: any) => ({
     id: createId(),
@@ -39,7 +40,7 @@ export const mockTagShow: Mock = (config) => {
     kind: "expenses",
     ...attrs,
   });
-  return [200, { resource: createTag }];
+  return [200, { resource: createTag() }];
 };
 export const mockSession: Mock = (config) => {
   return [
@@ -58,7 +59,6 @@ export const mockTagIndex: Mock = (config) => {
   const { kind, page } = config.params;
   const per_page = 25;
   const count = 26;
-
   const createPaper = (page = 1) => ({
     page,
     per_page,
