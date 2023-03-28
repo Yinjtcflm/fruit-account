@@ -36,6 +36,7 @@ type Item = {
   user_id: number;
   tags_id: number[];
   happen_at: string;
+  amount: number;
   kind: expenses | income;
 };
 type Resource<T> = {
