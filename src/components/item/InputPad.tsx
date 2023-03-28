@@ -8,6 +8,9 @@ export const InputPad = defineComponent({
   props: {
     happenAt: String,
     amount: Number,
+    onSubmit: {
+      type: Function as PropType<() => void>,
+    },
   },
   setup: (props, context) => {
     const now = new Date();
@@ -119,6 +122,7 @@ export const InputPad = defineComponent({
         text: "提交",
         onClick: () => {
           context.emit("update:amount", parseFloat(refAmount.value) * 100);
+          props.onSubmit?.();
         },
       },
     ];
