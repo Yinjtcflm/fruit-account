@@ -12,7 +12,7 @@ export class Time {
   format(pattern = "YYYY-MM-DD") {
     const year = this.date.getFullYear();
     const month = this.date.getMonth() + 1;
-    const day = this.date.getDay();
+    const day = this.date.getDate();
     const hour = this.date.getHours();
     const minute = this.date.getMinutes();
     const second = this.date.getSeconds();
@@ -24,7 +24,7 @@ export class Time {
       .replace(/HH/, hour.toString().padStart(2, "0"))
       .replace(/mm/, minute.toString().padStart(2, "0"))
       .replace(/ss/, second.toString().padStart(2, "0"))
-      .replace(/sss/, msecond.toString().padStart(2, "0"));
+      .replace(/sss/, msecond.toString().padStart(3, "0"));
   }
   firstDayOfMonth() {
     return new Time(
