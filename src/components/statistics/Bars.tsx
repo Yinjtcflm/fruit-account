@@ -9,18 +9,6 @@ export const Bars = defineComponent({
     },
   },
   setup: (props, context) => {
-    // const data3 = reactive([
-    //   { tag: { id: 1, name: "房租", sign: "x" }, amount: 3000 },
-    //   { tag: { id: 2, name: "旅游", sign: "x" }, amount: 5000 },
-    //   { tag: { id: 3, name: "吃饭", sign: "x" }, amount: 30 },
-    // ]);
-    // const betterData3 = computed(() => {
-    //   const total = data3.reduce((sum, item) => sum + item.amount, 0);
-    //   return data3.map((item) => ({
-    //     ...item,
-    //     percent: Math.round((item.amount / total) * 100) + "%",
-    //   }));
-    // });
     return () => (
       <div class={s.wrapper}>
         {props.data && props.data.length > 0 ? (

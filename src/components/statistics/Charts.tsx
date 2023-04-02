@@ -1,4 +1,11 @@
-import { defineComponent, PropType, ref, computed, onMounted } from "vue";
+import {
+  defineComponent,
+  PropType,
+  ref,
+  computed,
+  onMounted,
+  watch,
+} from "vue";
 import { FormItem } from "../../shared/Form";
 import { http } from "../../shared/Http";
 import { Time } from "../../shared/Time";
@@ -44,7 +51,7 @@ export const Charts = defineComponent({
         return [new Date(time).toISOString(), amount];
       });
     });
-    onMounted(async () => {
+    const fetchData1 = async () => {
       const response = await http.get<{ groups: Data1; summary: number }>(
         "/items/summary",
         {
@@ -56,7 +63,9 @@ export const Charts = defineComponent({
         }
       );
       data1.value = response.data.groups;
-    });
+    };
+    onMounted(fetchData1);
+    watch(() => kind.value, fetchData1);
     const data2 = ref<Data2>([]);
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
       data2.value.map((item) => ({
@@ -73,7 +82,7 @@ export const Charts = defineComponent({
         percent: Math.round((item.amount / total) * 100),
       }));
     });
-    onMounted(async () => {
+    const fetchData2 = async () => {
       const response = await http.get<{ groups: Data2; summary: number }>(
         "/items/summary",
         {
@@ -85,7 +94,9 @@ export const Charts = defineComponent({
         }
       );
       data2.value = response.data.groups;
-    });
+    };
+    onMounted(fetchData2);
+    watch(() => kind.value, fetchData2);
     return () => (
       <div class={s.wrapper}>
         <FormItem
