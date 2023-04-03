@@ -122,7 +122,7 @@ export const ItemSummary = defineComponent({
               {hasMore.value ? (
                 <Button onClick={fetchItems}>加载更多</Button>
               ) : (
-                <span>没有更多</span>
+                <span>没有更多了</span>
               )}
             </div>
           </>

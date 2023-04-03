@@ -1,6 +1,9 @@
 .more {
   padding: 16px;
   text-align: center;
+  > span {
+    padding: 32px;
+  }
 }
 .tags_wrapper {
   display: flex;

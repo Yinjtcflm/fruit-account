@@ -1,5 +1,3 @@
-.wrapper {
-}
 .total {
   background: var(--total-bg);
   display: flex;
@@ -65,4 +63,7 @@
 .more {
   padding-top: 32px;
   text-align: center;
+  > span {
+    padding:32px;
+  }
 }
