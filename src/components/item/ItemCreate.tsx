@@ -105,7 +105,7 @@ export const ItemCreate = defineComponent({
                 </Tabs>
                 <div class={s.inputPad_wrapper}>
                   <InputPad
-                    v-model:happenAt={formData.happenAt}
+                    v-model:happenAt={formData.happen_at}
                     v-model:amount={formData.amount}
                     onSubmit={onSubmit}
                   />
@@ -118,6 +118,3 @@ export const ItemCreate = defineComponent({
     );
   },
 });
-function showDialog(arg0: { title: string; message: unknown[] }) {
-  throw new Error("Function not implemented.");
-}
