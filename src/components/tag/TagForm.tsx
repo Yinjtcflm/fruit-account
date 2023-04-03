@@ -43,6 +43,7 @@ export const TagForm = defineComponent({
           await http
             .patch(`/tags/${formData.id}`, formData, {
               _mock: "tagEdit",
+              _autoLoading: true,
             })
             .catch((error) => {
               onFormError(error, (data) => {
@@ -53,6 +54,7 @@ export const TagForm = defineComponent({
           await http
             .post("tags", formData, {
               _mock: "tagCreate",
+              _autoLoading: true,
             })
             .catch((error) => {
               onFormError(error, (data) => {
@@ -70,7 +72,7 @@ export const TagForm = defineComponent({
       const response = await http.get<Resource<Tag>>(
         `/tags/${props.id}`,
         {},
-        { _mock: "tagShow" }
+        { _mock: "tagShow", _autoLoading: true }
       );
       Object.assign(formData, response.data.resource);
     });
