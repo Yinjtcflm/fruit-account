@@ -11,7 +11,7 @@ const router = createRouter({ history, routes });
 fetchMe();
 const whiteList: Record<string, "exact" | "stratsWith"> = {
   "/": "exact",
-  "/start": "exact",
+  "/items": "exact",
   "/welcome": "stratsWith",
   "/sign_in": "stratsWith",
 };
