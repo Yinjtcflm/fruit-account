@@ -4,10 +4,19 @@ import { createRouter } from "vue-router";
 import { routes } from "./config/routes";
 import { history } from "./shared/history";
 import "@svgstore";
-import { createPinia } from "pinia";
+import { createPinia, storeToRefs } from "pinia";
 import { useMeStore } from "./stores/useMeStore";
 
 const router = createRouter({ history, routes });
+const app = createApp(App);
+const pinia = createPinia();
+app.use(router);
+app.use(pinia);
+app.mount("#app");
+
+const meStore = useMeStore();
+const { mePromise } = storeToRefs(meStore);
+meStore.fetchMe();
 
 const whiteList: Record<string, "exact" | "stratsWith"> = {
   "/": "exact",
@@ -25,16 +34,8 @@ router.beforeEach((to, from) => {
       return true;
     }
   }
-  return meStore.mePromise!.then(
+  return mePromise!.value!.then(
     () => true,
     () => "/sign_in?return_to=" + to.path
   );
 });
-const app = createApp(App);
-const pinia = createPinia();
-app.use(router);
-app.use(pinia);
-app.mount("#app");
-
-const meStore = useMeStore();
-meStore.fetchMe();
