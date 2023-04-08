@@ -46,13 +46,6 @@ export const TagEdit = defineComponent({
               <div class={s.actions}>
                 <Button
                   level="danger"
-                  class={s.removeTags}
-                  onClick={() => onDelete()}
-                >
-                  删除标签
-                </Button>
-                <Button
-                  level="danger"
                   class={s.removeTagsAndItems}
                   onClick={() => onDelete({ withItems: true })}
                 >
