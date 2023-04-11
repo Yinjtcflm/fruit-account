@@ -1,11 +1,4 @@
-import {
-  defineComponent,
-  PropType,
-  ref,
-  onMounted,
-  reactive,
-  watch,
-} from "vue";
+import { defineComponent, PropType, reactive, watch } from "vue";
 import s from "./ItemSummary.module.scss";
 import { FloatButton } from "../../shared/FloatButton";
 import { http } from "../../shared/Http";
@@ -134,8 +127,9 @@ export const ItemSummary = defineComponent({
             </>
           ) : (
             <>
-              <Center class={s.pig_wrapper}>
+              <Center class={s.pig_wrapper} direction="|">
                 <Icon name="pig" class={s.pig} />
+                <p>目前没有数据</p>
               </Center>
               <div class={s.button_wrapper}>
                 <RouterLink to="/items/create">
