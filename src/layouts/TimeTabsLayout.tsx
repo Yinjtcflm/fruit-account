@@ -1,11 +1,12 @@
-import { defineComponent, ref, reactive, PropType, DefineComponent } from "vue";
-import s from "./TimeTabsLayout.module.scss";
+import { defineComponent, ref, reactive, PropType } from "vue";
 import { Overlay } from "vant";
 import { Form, FormItem } from "../shared/Form";
 import { OverlayIcon } from "../shared/Overlay";
 import { Time } from "../shared/Time";
-import { MainLayout } from "./MainLayout";
 import { Tab, Tabs } from "../shared/Tabs";
+import s from "./TimeTabsLayout.module.scss";
+import { MainLayout } from "./MainLayout";
+
 const demo = defineComponent({
   props: {
     startDate: {

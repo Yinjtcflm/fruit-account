@@ -24,12 +24,12 @@ body {
   width: 100%;
 }
 
-.slide-fade-enter-from {
-  transform: translateX(100vw);
-}
-.slide-fade-leave-to {
-  transform: translateX(-100vw);
-}
+// .slide-fade-enter-from {
+//   transform: translateX(100vw);
+// }
+// .slide-fade-leave-to {
+//   transform: translateX(-100vw);
+// }
 .customTabs_tabs_nav {
   justify-content: flex-start;
   & > &_item {
