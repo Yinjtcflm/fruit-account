@@ -1,5 +1,4 @@
 import { defineComponent, PropType, reactive, watch } from "vue";
-import s from "./ItemSummary.module.scss";
 import { FloatButton } from "../../shared/FloatButton";
 import { http } from "../../shared/Http";
 import { Button } from "../../shared/Button";
@@ -10,6 +9,8 @@ import { Center } from "../../shared/Center";
 import { RouterLink } from "vue-router";
 import { useAfterMe } from "../../hooks/useAfterMe";
 import { useItemStore } from "../../stores/useItemStore";
+import s from "./ItemSummary.module.scss";
+
 export const ItemSummary = defineComponent({
   props: {
     startDate: {
