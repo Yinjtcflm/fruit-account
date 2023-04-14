@@ -8,9 +8,9 @@ export const Fourth: FunctionalComponent = () => {
         <use xlinkHref="#cloud"></use>
       </svg>
       <h2>
-        会挣钱
+        云备份
         <br />
-        还要会省钱
+        数据上云，安全存储
       </h2>
     </div>
   );

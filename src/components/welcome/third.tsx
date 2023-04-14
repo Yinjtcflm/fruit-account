@@ -8,9 +8,9 @@ export const Third: FunctionalComponent = () => {
         <use xlinkHref="#chart"></use>
       </svg>
       <h2>
-        会挣钱
+        数据可视化
         <br />
-        还要会省钱
+        收支一目了然
       </h2>
     </div>
   );
