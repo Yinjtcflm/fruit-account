@@ -6,7 +6,9 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
 declare var DEBUG: boolean;
+
 type JSONValue =
   | null
   | boolean
