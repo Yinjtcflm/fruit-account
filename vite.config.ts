@@ -16,6 +16,7 @@ export default defineConfig(({ command }) => {
         : {
             DEBUG: true,
           },
+    base: "https://fruit-account-1317770777.cos.ap-shanghai.myqcloud.com",
     build: {
       rollupOptions: {
         output: {
@@ -49,7 +50,7 @@ export default defineConfig(({ command }) => {
     ],
     server: {
       proxy: {
-        "/api/v1": { target: "http://121.196.236.94:8080/" },
+        "/api/v1": { target: "http://121.196.236.94:3000/" },
       },
     },
   };
